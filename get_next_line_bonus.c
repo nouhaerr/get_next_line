@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nerrakeb <nerrakeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/05 18:14:59 by nerrakeb          #+#    #+#             */
-/*   Updated: 2022/12/05 23:33:11 by nerrakeb         ###   ########.fr       */
+/*   Created: 2022/12/06 00:11:09 by nerrakeb          #+#    #+#             */
+/*   Updated: 2022/12/06 00:14:20 by nerrakeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
 	char		*new_line;
-	static char	*stash;
+	static char	*stash[1024];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	stash = ft_read_and_add_to_stash(fd, stash);
-	if (stash == NULL)
+	stash[fd] = ft_read_and_add_to_stash(fd, stash[fd]);
+	if (stash[fd] == NULL)
 		return (NULL);
-	new_line = ft_new_line (stash);
-	stash = ft_save(stash);
+	new_line = ft_new_line (stash[fd]);
+	stash[fd] = ft_save(stash[fd]);
 	return (new_line);
 }
 
@@ -43,6 +43,7 @@ char	*ft_read_and_add_to_stash(int fd, char *stash)
 		{
 			free(buf);
 			free(stash);
+			stash = NULL;
 			return (NULL);
 		}
 		buf[rd] = '\0';
