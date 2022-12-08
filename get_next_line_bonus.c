@@ -6,7 +6,7 @@
 /*   By: nerrakeb <nerrakeb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 00:11:09 by nerrakeb          #+#    #+#             */
-/*   Updated: 2022/12/06 00:14:20 by nerrakeb         ###   ########.fr       */
+/*   Updated: 2022/12/08 01:55:31 by nerrakeb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*get_next_line(int fd)
 {
 	char		*new_line;
-	static char	*stash[1024];
+	static char	*stash[OPEN_MAX];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
